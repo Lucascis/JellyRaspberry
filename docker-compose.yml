@@ -88,6 +88,11 @@ services:
       - ./config/bazarr:/config
       - /mnt/disco1/media:/media1
       - /mnt/disco2/media:/media2
+      - /mnt/disco1/media/series:/tv1        # para Sonarr
+      - /mnt/disco2/media/series:/tv2        # para Sonarr
+      - /mnt/disco1/media/peliculas:/movies1 # para Radarr
+      - /mnt/disco2/media/peliculas:/movies2 # para Radarr
+      - /mnt/disco2/descargas:/downloads
     restart: unless-stopped
 
   watchtower:
