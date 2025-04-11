@@ -88,10 +88,10 @@ services:
       - ./config/bazarr:/config
       - /mnt/disco1/media:/media1
       - /mnt/disco2/media:/media2
-      - /mnt/disco1/media/series:/tv1        # para Sonarr
-      - /mnt/disco2/media/series:/tv2        # para Sonarr
-      - /mnt/disco1/media/peliculas:/movies1 # para Radarr
-      - /mnt/disco2/media/peliculas:/movies2 # para Radarr
+      - /mnt/disco1/media/series:/tv1
+      - /mnt/disco2/media/series:/tv2
+      - /mnt/disco1/media/peliculas:/movies1
+      - /mnt/disco2/media/peliculas:/movies2
       - /mnt/disco2/descargas:/downloads
     restart: unless-stopped
 
@@ -103,7 +103,7 @@ services:
     restart: unless-stopped
     command: --cleanup
 
-  telegram-bot:
+  autobrr:
     image: ghcr.io/autobrr/autobrr:latest
     container_name: autobrr
     depends_on:
@@ -115,6 +115,13 @@ services:
     restart: unless-stopped
     # A integrar con tu bot de Telegram (configuración desde el panel de autobrr)
 
+  telegram-request-bot:
+    build: ./telegram_request_bot
+    container_name: telegram_request_bot
+    restart: unless-stopped
+    env_file:
+      - ./telegram_request_bot/.env
+
   discord-webhook:
     image: curlimages/curl
     container_name: discord_notify
@@ -123,18 +130,4 @@ services:
       sh -c "while true; do sleep 3600; done"
     # Placeholder para integrar con Webhook de Discord usando curl desde Sonarr/Radarr/Bazarr
 
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-    command: --cleanup
-
-  telegram-bot:
-    build: ./telegram_request_bot
-    container_name: telegram_request_bot
-    restart: unless-stopped
-    env_file:
-      - ./telegram_request_bot/.env
 # Red: bridge por defecto
