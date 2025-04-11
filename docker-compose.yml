@@ -24,8 +24,6 @@ services:
       - PGID=1000
       - TZ=America/Argentina/Cordoba
       - WEBUI_PORT=8180
-      - QBT_WEBUI_USERNAME=admin
-      - QBT_WEBUI_PASSWORD=admin
     volumes:
       - ./config/qbittorrent:/config
       - /mnt/disco2/descargas:/downloads
